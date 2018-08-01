@@ -26,10 +26,12 @@ tfidf <- function(data_matrix)
   m1 <- matrix(0, nrow = nrow(data_matrix), ncol = ncol(data_matrix))
   for (i in seq(1, nrow(data_matrix))) {
     a1 <- which(tfidf1$row == rownames(data_matrix)[i])
-    a2 <- which(colnames(data_matrix) %in% tfidf1$column[a1])
+    a2 <- match(tfidf1$column[a1], colnames(data_matrix))
     m1[i, a2] <- tfidf1$tf_idf[a1]
   }
 
+  colnames(m1) <- colnames(data_matrix)
+  rownames(m1) <- rownames(data_matrix)
 
   # make sparse matrix ----
   M <- Matrix::Matrix(m1, sparse = TRUE)
