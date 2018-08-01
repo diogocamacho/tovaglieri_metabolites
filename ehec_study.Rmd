@@ -209,7 +209,7 @@ colnames(module_mat) <- ece_genes$gene_name[which(ece_genes$gene_id %in% umg)]
 rownames(module_mat) <- ece_modules$module_name[match(umod,ece_modules$module_id)]
 
 # tfidf enrichment using these sets
-pathway_tfidf <- tfidf(data_matrix = Matrix(pathway_mat, sparse=TRUE))
+pathway_tfidf <- tfidf(data_matrix = Matrix::Matrix(data = pathway_mat, sparse=TRUE))
 kegg_path_cpm <- crossprod_matrix(tfidf_matrix = pathway_tfidf)
 
 module_tfidf <- tfidf(data_matrix = Matrix(module_mat, sparse=TRUE))
@@ -243,8 +243,9 @@ gobp <- data_frame(goid = ugo,
                    go_term = y1$TERM,
                    go_description = y1$DEFINITION)
 
-gobp_tfidf <- tidy_tfidf(data_matrix = Matrix(gobp_table,sparse = TRUE))
+gobp_tfidf <- tfidf(data_matrix = Matrix(gobp_table, sparse = TRUE))
 gobp_cpm <- crossprod_matrix(tfidf_matrix = gobp_tfidf)
+
 
 # ENRICHMENT BIT ----
 diff_genes <- ec_fb_res %>% 
